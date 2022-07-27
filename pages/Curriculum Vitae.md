@@ -14,7 +14,7 @@ alias:: CV
       :find (pull ?b [*])
       :where 
           (property ?b :type "job")
-          [?b :block/parent ?parent]
+          ; [?b :block/parent ?parent]
           ; (!= ?parent "Templates")
   ]
   ; For some reason, this doesn't sort

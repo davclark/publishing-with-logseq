@@ -8,9 +8,9 @@
             [datascript.core :as d]
             [clojure.pprint :as pprint]
             [clojure.edn :as edn]
-            [nbb.core :as nbb])
+            [nbb.core :as nbb]
+            [query_dsl :as q])
   (:refer-clojure :exclude [exists?]))
-
 
 ;; fs utils
 (defn expand-home
@@ -36,8 +36,7 @@
 ;; graph utils
 (defn get-graph-paths
   []
-  ; We are focused on querying the local graph
-  (let [dir "."]
+  (let [dir (expand-home ".logseq/graphs")]
     (->> (entries dir)
          (filter #(re-find #".transit$" %))
          (map #(str dir "/" %)))))
@@ -59,11 +58,15 @@
     (when (exists? file)
       (-> file slurp dt/read-transit-str))))
 
+; (def graph-name "publishing-with-logseq")
+
 (defn -main
   [args]
   (if-not (= 2 (count args))
     (println "Usage: $0 GRAPH QUERY")
+    ; (println "Usage: $0 QUERY")
     (let [[graph-name query] args
+          ; [query] args
           db (or (get-graph-db graph-name)
                  (throw (ex-info "No graph found" {:graph graph-name})))
           query' (edn/read-string query)

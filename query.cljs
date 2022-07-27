@@ -9,7 +9,9 @@
             [clojure.pprint :as pprint]
             [clojure.edn :as edn]
             [nbb.core :as nbb]
-            [query_dsl :as q])
+            ; This has tons of requires unfortunately
+            ; [query_dsl :as q]
+            )
   (:refer-clojure :exclude [exists?]))
 
 ;; fs utils
@@ -65,13 +67,15 @@
   (if-not (= 2 (count args))
     (println "Usage: $0 GRAPH QUERY")
     ; (println "Usage: $0 QUERY")
+    ; Breaking this into nested (let) forms, so I can print the parsed query
     (let [[graph-name query] args
           ; [query] args
           db (or (get-graph-db graph-name)
                  (throw (ex-info "No graph found" {:graph graph-name})))
-          query' (edn/read-string query)
-          results (map first (d/q query' db))]
-      (pprint/pprint results))))
+          query' (edn/read-string query)]
+      (pprint/pprint query')
+      (let [results (map first (d/q query' db))]
+        (pprint/pprint results)))))
 
 (when (= nbb/*file* (:file (meta #'-main)))
   (-main *command-line-args*))

@@ -20,3 +20,8 @@ Provided examples in the nbb-logseq repo work:
 BUT currently this is failing with `Missing rules var '%' in :in`:
 
 - `npx nbb-logseq query.cljs publishing-with-logseq '[:find (pull ?b [*]) :where (property ?b :type "job")]'`
+
+This makes sense now - though I'm not sure how to put the rules in :in the "right way". For now, I
+can manually convert the above to a working "vanilla" datalog query:
+
+- `npx nbb-logseq query.cljs publishing-with-logseq '[:find (pull ?b [*]) :where [?b :block/properties ?prop] [(get ?prop :type) ?type] [(= ?type "job")]]'`

@@ -1,0 +1,8 @@
+; logseq/graph-validator loads logseq.db using the following yarn dependency:
+; @logseq/db": "https://github.com/logseq/logseq#workspace=@logseq/db&head=dev/yarn-workspaces
+; We're trying with a more babashka-first approach
+; Note sure what the prefix should be, so I just did logseq for now - seems to work
+{:deps {logseq/logseq.db {:git/url "https://github.com/logseq/logseq"
+                   :git/tag "0.7.9"
+                   :git/sha "5e2487c"
+                   :deps/root "deps/db"}}}

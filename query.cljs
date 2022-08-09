@@ -9,7 +9,8 @@
             [clojure.pprint :as pprint]
             [clojure.edn :as edn]
             [nbb.core :as nbb]
-            [deps]
+            ; Commenting while I muck with nbb.edn
+            ; [deps]
             [logseq.db.rules :as rules]
             ; This has tons of requires unfortunately
             ; [query_dsl :as q]

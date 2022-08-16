@@ -9,11 +9,7 @@
             [clojure.pprint :as pprint]
             [clojure.edn :as edn]
             [nbb.core :as nbb]
-            ; Commenting while I muck with nbb.edn
-            ; [deps]
             [logseq.db.rules :as rules]
-            ; This has tons of requires unfortunately
-            ; [query_dsl :as q]
             )
   (:refer-clojure :exclude [exists?]))
 
@@ -77,7 +73,10 @@
                  (throw (ex-info "No graph found" {:graph graph-name})))
           query' (edn/read-string query)]
       (pprint/pprint query')
-      (let [results (map first (d/q query' db))]
+      (let [results (map first (d/q
+                                 (into query' '[:in $ %])
+                                 db
+                                 (vals rules/query-dsl-rules)))]
         (pprint/pprint results)))))
 
 (when (= nbb/*file* (:file (meta #'-main)))

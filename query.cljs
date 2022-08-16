@@ -1,4 +1,4 @@
-; Copied from https://github.com/logseq/nbb-logseq/blob/main/examples/query.cljs
+; Based on https://github.com/logseq/nbb-logseq/blob/main/examples/query.cljs
 (ns query
   "Script that queries a local graph with given query"
   (:require ["fs" :as fs]
@@ -68,7 +68,6 @@
     ; (println "Usage: $0 QUERY")
     ; Breaking this into nested (let) forms, so I can print the parsed query
     (let [[graph-name query] args
-          ; [query] args
           db (or (get-graph-db graph-name)
                  (throw (ex-info "No graph found" {:graph graph-name})))
           query' (edn/read-string query)]

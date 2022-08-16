@@ -12,16 +12,17 @@ discussion](https://discuss.logseq.com/t/9079).
 3. `npm install`
 4. npx nbb-logseq query.cljs publishing-with-logseq <something>
 
-Provided examples in the nbb-logseq repo work:
+Provided examples in the nbb-logseq repo work trivially:
 
 - `npx nbb-logseq query.cljs publishing-with-logseq '[:find (pull ?b [*]) :where [?b :block/marker]]'`
 - `npx nbb-logseq query.cljs publishing-with-logseq '[:find ?n :where [?b :block/name ?n]]'`
 
-BUT currently this is failing with `Missing rules var '%' in :in`:
+This was a bit more work, and you can see how I'm now importing logseq.db for rules in nbb.edn and
+importing and using them in query.cljs:
 
 - `npx nbb-logseq query.cljs publishing-with-logseq '[:find (pull ?b [*]) :where (property ?b :type "job")]'`
 
-This makes sense now - though I'm not sure how to put the rules in :in the "right way". For now, I
-can manually convert the above to a working "vanilla" datalog query:
+If you want to use soemthing like a property query without the nbb.edn, etc. you can just not use
+logseq's custom rules, e.g.:
 
 - `npx nbb-logseq query.cljs publishing-with-logseq '[:find (pull ?b [*]) :where [?b :block/properties ?prop] [(get ?prop :type) ?type] [(= ?type "job")]]'`
